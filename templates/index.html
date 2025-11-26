@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Disease Predictor - AI-Powered Health Diagnosis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style type="text/css">
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 300;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 300;
+            src: url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);
+            unicode-range: U+0370-03FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 300;
+            src: url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 300;
+            src: url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);
+            unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 300;
+            src: url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 300;
+            src: url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);
+            unicode-range: U+1F00-1FFF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 300;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 400;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 400;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 400;
+            src: url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);
+            unicode-range: U+1F00-1FFF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 400;
+            src: url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 400;
+            src: url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 400;
+            src: url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);
+            unicode-range: U+0370-03FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 400;
+            src: url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);
+            unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            src: url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            src: url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);
+            unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            src: url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            src: url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);
+            unicode-range: U+1F00-1FFF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            src: url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);
+            unicode-range: U+0370-03FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            src: url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);
+            unicode-range: U+1F00-1FFF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            src: url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);
+            unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            src: url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            src: url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 600;
+            src: url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);
+            unicode-range: U+0370-03FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 700;
+            src: url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 700;
+            src: url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);
+            unicode-range: U+1F00-1FFF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 700;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 700;
+            src: url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 700;
+            src: url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);
+            unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 700;
+            src: url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);
+            unicode-range: U+0370-03FF;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 700;
+            src: url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            font-display: swap;
+        }
+    </style>
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/health.ico') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Human Disease Predictor</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">AboutUs</a></li>
+                <li><a href="#register" class="nav-link">Register</a></li>
+                <li><a href="#symptoms" class="nav-link">Symptoms</a></li>
+                <li><a href="#prediction" class="nav-link">Prediction</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#feedback" class="nav-link">Feedback</a></li>
+                <li><a href="#health-tips" class="nav-link">Health Tips</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <section id="home" class="page active">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>AI-Powered Disease Prediction System</h1>
+                <p class="hero-subtitle">Get instant health insights by analyzing your symptoms with our advanced AI
+                    technology. Predict from over 200 diseases with 95% accuracy.</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">29+</div>
+                        <div class="stat-label">Diseases Predicted</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">75%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Users Helped</div>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary next-btn" data-next="register">Get Started</button>
+                    <button class="btn btn-secondary next-btn" data-next="about">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://imagedelivery.net/xMnwd1aoy-PQ8Klk2JdGdw/0e3720ed-d100-4a9e-2fff-771b6d145900/public"
+                    alt="Medical AI technology dashboard showing disease prediction interface with charts and health data visualization"
+                    width="600" height="400">
+            </div>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>AI-Powered Analysis</h3>
+                <p>Advanced machine learning algorithms analyze your symptoms to provide accurate disease predictions.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Instant Results</h3>
+                <p>Get immediate health insights within seconds of symptom input for quick decision making.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Secure &amp; Private</h3>
+                <p>Your health data is encrypted and protected with industry-standard security measures.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="register" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Create Your Account</h2>
+                <p>Join thousands of users who trust our AI-powered health predictions</p>
+            </div>
+            <div class="form-container">
+                <form class="register-form" action="/" method="POST">
+                    <input type="hidden" name="form_name" value="user_registration">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="full_name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" min="1" max="120" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender" required="">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" minlength="8" required="">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+                {% if user_id %}
+                <p>Registration successful! Your user ID is: <strong>{{ user_id }}</strong></p>
+                {% endif %}
+            </div>
+            <div class="page-navigation">
+                <button class="btn btn-secondary next-btn" data-next="symptoms">Next: Select Symptoms</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="symptoms" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Select Your Symptoms</h2>
+                <p>Click on the symptoms you're experiencing. You can select multiple symptoms for better accuracy.</p>
+            </div>
+            <div class="symptoms-container">
+                <div class="symptoms-category">
+                    <h3><i class="fas fa-head-side-cough"></i> General Symptoms</h3>
+                    <div class="symptoms-grid">
+                        <button class="symptom-btn" data-symptom="fever">Fever</button>
+                        <button class="symptom-btn" data-symptom="fatigue">Fatigue</button>
+                        <button class="symptom-btn" data-symptom="headache">Headache</button>
+                        <button class="symptom-btn" data-symptom="nausea">Nausea</button>
+                        <button class="symptom-btn" data-symptom="vomiting">Vomiting</button>
+                        <button class="symptom-btn" data-symptom="dizziness">Dizziness</button>
+                        <button class="symptom-btn" data-symptom="weakness">Weakness</button>
+                        <button class="symptom-btn" data-symptom="chills">Chills</button>
+                    </div>
+                </div>
+                <div class="symptoms-category">
+                    <h3><i class="fas fa-lungs"></i> Respiratory Symptoms</h3>
+                    <div class="symptoms-grid">
+                        <button class="symptom-btn" data-symptom="cough">Cough</button>
+                        <button class="symptom-btn" data-symptom="shortness-of-breath">Shortness of Breath</button>
+                        <button class="symptom-btn" data-symptom="chest-pain">Chest Pain</button>
+                        <button class="symptom-btn" data-symptom="sore-throat">Sore Throat</button>
+                        <button class="symptom-btn" data-symptom="runny-nose">Runny Nose</button>
+                        <button class="symptom-btn" data-symptom="sneezing">Sneezing</button>
+                        <button class="symptom-btn" data-symptom="wheezing">Wheezing</button>
+                        <button class="symptom-btn" data-symptom="congestion">Nasal Congestion</button>
+                    </div>
+                </div>
+                <div class="symptoms-category">
+                    <h3><i class="fas fa-stomach"></i> Digestive Symptoms</h3>
+                    <div class="symptoms-grid">
+                        <button class="symptom-btn" data-symptom="abdominal-pain">Abdominal Pain</button>
+                        <button class="symptom-btn" data-symptom="diarrhea">Diarrhea</button>
+                        <button class="symptom-btn" data-symptom="constipation">Constipation</button>
+                        <button class="symptom-btn" data-symptom="bloating">Bloating</button>
+                        <button class="symptom-btn" data-symptom="loss-of-appetite">Loss of Appetite</button>
+                        <button class="symptom-btn" data-symptom="heartburn">Heartburn</button>
+                        <button class="symptom-btn" data-symptom="gas">Excessive Gas</button>
+                        <button class="symptom-btn" data-symptom="stomach-cramps">Stomach Cramps</button>
+                    </div>
+                </div>
+                <div class="symptoms-category">
+                    <h3><i class="fas fa-brain"></i> Neurological Symptoms</h3>
+                    <div class="symptoms-grid">
+                        <button class="symptom-btn" data-symptom="confusion">Confusion</button>
+                        <button class="symptom-btn" data-symptom="memory-loss">Memory Loss</button>
+                        <button class="symptom-btn" data-symptom="seizures">Seizures</button>
+                        <button class="symptom-btn" data-symptom="numbness">Numbness</button>
+                        <button class="symptom-btn" data-symptom="tingling">Tingling</button>
+                        <button class="symptom-btn" data-symptom="tremors">Tremors</button>
+                        <button class="symptom-btn" data-symptom="balance-problems">Balance Problems</button>
+                        <button class="symptom-btn" data-symptom="speech-difficulty">Speech Difficulty</button>
+                    </div>
+                </div>
+                <div class="symptoms-category">
+                    <h3><i class="fas fa-user-md"></i> Skin &amp; External Symptoms</h3>
+                    <div class="symptoms-grid">
+                        <button class="symptom-btn" data-symptom="rash">Rash</button>
+                        <button class="symptom-btn" data-symptom="itching">Itching</button>
+                        <button class="symptom-btn" data-symptom="swelling">Swelling</button>
+                        <button class="symptom-btn" data-symptom="bruising">Bruising</button>
+                        <button class="symptom-btn" data-symptom="pale-skin">Pale Skin</button>
+                        <button class="symptom-btn" data-symptom="yellow-skin">Yellow Skin</button>
+                        <button class="symptom-btn" data-symptom="cold-sweats">Cold Sweats</button>
+                        <button class="symptom-btn" data-symptom="night-sweats">Night Sweats</button>
+                    </div>
+                </div>
+
+                <div id="symptom-list" class="symptom-list"></div>
+
+                <button id="analyze-symptoms" class="btn">Analyze Symptoms</button>
+            </div>
+        </div>
+        </div>
+
+    </section>
+
+    <section id="prediction" class="page">
+        <div class="page-container">
+            <h2>Disease Prediction Results</h2>
+            <div id="prediction-results"></div>
+        </div>
+    </section>
+
+    <section id="services" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Our Healthcare Services</h2>
+                <p>Comprehensive AI-powered health solutions for better living</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-diagnoses"></i>
+                    </div>
+                    <h3>Disease Prediction</h3>
+                    <p>Advanced AI analysis of symptoms to predict over 200 diseases with high accuracy.</p>
+                    <ul class="service-features">
+                        <li>29+ Disease Database</li>
+                        <li>75% Accuracy Rate</li>
+                        <li>Instant Results</li>
+                        <li>Detailed Reports</li>
+                    </ul>
+                    <div class="service-price">Free</div>
+                </div>
+                <div class="service-card featured">
+                    <div class="service-badge">Most Popular</div>
+                    <div class="service-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Health Monitoring</h3>
+                    <p>Continuous health tracking with personalized insights and recommendations.</p>
+                    <ul class="service-features">
+                        <li>24/7 Health Tracking</li>
+                        <li>Personalized Insights</li>
+                        <li>Risk Assessments</li>
+                        <li>Health Trends</li>
+                    </ul>
+                    <div class="service-price">Rs. 200 /month</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Doctor Consultation</h3>
+                    <p>Connect with certified healthcare professionals for expert medical advice.</p>
+                    <ul class="service-features">
+                        <li>Certified Doctors</li>
+                        <li>Video Consultations</li>
+                        <li>Prescription Services</li>
+                        <li>Follow-up Care</li>
+                    </ul>
+                    <div class="service-price">Rs. 500 /session</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h3>Medication Reminders</h3>
+                    <p>Smart medication management with automated reminders and dosage tracking.</p>
+                    <ul class="service-features">
+                        <li>Smart Reminders</li>
+                        <li>Dosage Tracking</li>
+                        <li>Drug Interactions</li>
+                        <li>Refill Alerts</li>
+                    </ul>
+                    <div class="service-price">Rs. 100 /month</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Health Analytics</h3>
+                    <p>Comprehensive health data analysis with predictive insights and trends.</p>
+                    <ul class="service-features">
+                        <li>Data Visualization</li>
+                        <li>Predictive Analytics</li>
+                        <li>Health Scoring</li>
+                        <li>Risk Modeling</li>
+                    </ul>
+                    <div class="service-price">Rs. 300 /month</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3>Preventive Care</h3>
+                    <p>Proactive health measures and early detection programs for optimal wellness.</p>
+                    <ul class="service-features">
+                        <li>Health Screenings</li>
+                        <li>Vaccination Tracking</li>
+                        <li>Wellness Programs</li>
+                        <li>Early Detection</li>
+                    </ul>
+                    <div class="service-price">Rs. 100 /month</div>
+                </div>
+            </div>
+            <div class="page-navigation">
+                <button class="btn btn-primary next-btn" data-next="about">Learn About Us</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>About Human Disease Predictor</h2>
+                <p>Revolutionizing healthcare through artificial intelligence and machine learning</p>
+            </div>
+            <div class="about-content">
+                <div class="about-section">
+                    <div class="about-text">
+                        <h3>Our Mission</h3>
+                        <p>To democratize healthcare by making accurate disease prediction accessible to everyone
+                            through cutting-edge AI technology. We believe that early detection and proper health
+                            insights should be available to all, regardless of location or economic status.</p>
+                        <p>Our advanced machine learning algorithms analyze symptoms and medical data to provide
+                            reliable health predictions, empowering individuals to make informed decisions about their
+                            health and seek appropriate medical care when needed.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://imagedelivery.net/xMnwd1aoy-PQ8Klk2JdGdw/d8aec323-866e-4bcf-b98c-693d294d6b00/public"
+                            alt="Medical team working with AI technology and health data analysis in modern healthcare facility"
+                            width="500" height="400">
+                    </div>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">100+</div>
+                            <div class="stat-label">Users Served</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">29+</div>
+                            <div class="stat-label">Diseases Covered</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">75%</div>
+                            <div class="stat-label">Accuracy Rate</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number">India</div>
+                            <div class="stat-label">Country Reached</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-section">
+                    <h3>Our Expert Team</h3>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <img src="https://imagedelivery.net/xMnwd1aoy-PQ8Klk2JdGdw/0758f771-35d5-480c-b864-685144dab200/public"
+                                alt="Dr. Sarah Johnson, Chief Medical Officer and healthcare AI specialist" width="200"
+                                height="200">
+                            <h4>Dr. Sarah Johnson</h4>
+                            <p class="team-role">Chief Medical Officer</p>
+                            <p class="team-bio">15+ years in internal medicine and AI healthcare applications</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://imagedelivery.net/xMnwd1aoy-PQ8Klk2JdGdw/06e041c3-717c-4232-7a2c-59b902451200/public"
+                                alt="Michael Chen, Lead AI Engineer specializing in machine learning for healthcare"
+                                width="200" height="200">
+                            <h4>Michael Chen</h4>
+                            <p class="team-role">Lead AI Engineer</p>
+                            <p class="team-bio">Machine learning expert with focus on healthcare applications</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://imagedelivery.net/xMnwd1aoy-PQ8Klk2JdGdw/234e8b86-70fd-4f5c-8fdb-e2c54a0a1a00/public"
+                                alt="Dr. Emily Rodriguez, Data Scientist and medical researcher in predictive healthcare"
+                                width="200" height="200">
+                            <h4>Dr. Emily Rodriguez</h4>
+                            <p class="team-role">Data Scientist</p>
+                            <p class="team-bio">PhD in Biostatistics with expertise in predictive modeling</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://imagedelivery.net/xMnwd1aoy-PQ8Klk2JdGdw/9ba60782-147a-4d96-a88a-b859abbf6b00/public"
+                                alt="David Kim, Product Manager overseeing healthcare technology development and user experience"
+                                width="200" height="200">
+                            <h4>David Kim</h4>
+                            <p class="team-role">Product Manager</p>
+                            <p class="team-bio">Healthcare technology specialist focused on user experience</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-navigation">
+                <button class="btn btn-primary next-btn" data-next="register">Register to predict disease</button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="feedback" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Your Feedback Matters</h2>
+                <p>Help us improve our services by sharing your experience and suggestions</p>
+            </div>
+            <div class="feedback-content">
+                <div class="feedback-form-container">
+                    <form class="feedback-form" action="/submit_feedback" method="POST">
+                        <input type="hidden" name="form_name" value="user_feedback">
+                        <div class="form-group">
+                            <label for="feedbackName">Your Name</label>
+                            <input type="text" id="feedbackName" name="name" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="feedbackEmail">Email Address</label>
+                            <input type="email" id="feedbackEmail" name="email" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="feedbackType">Feedback Type</label>
+                            <select id="feedbackType" name="feedback_type" required="">
+                                <option value="">Select Type</option>
+                                <option value="general">General Feedback</option>
+                                <option value="bug-report">Bug Report</option>
+                                <option value="feature-request">Feature Request</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="compliment">Compliment</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Overall Rating</label>
+                            <div class="rating-input">
+                                <input type="radio" id="star5" name="rating" value="5">
+                                <label for="star5"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1"><i class="fas fa-star"></i></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feedbackMessage">Your Message</label>
+                            <textarea id="feedbackMessage" name="message" rows="6"
+                                placeholder="Tell us about your experience, suggestions for improvement, or any issues you've encountered..."
+                                required=""></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                    </form>
+
+                    <!-- Extra -->
+
+
+
+
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="testimonials">
+                    <h3>What Our Users Say</h3>
+                    <div class="testimonial-grid">
+                        <div class="testimonial-card">
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p>"This platform helped me identify my symptoms early and seek proper medical care. The
+                                predictions were incredibly accurate!"</p>
+                            <div class="testimonial-author">
+                                <strong>Anuv Soni</strong>
+                                <span>Punjab, India</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p>"The AI predictions gave me peace of mind and helped me make informed decisions about my
+                                health. Highly recommended!"</p>
+                            <div class="testimonial-author">
+                                <strong>Lavnya</strong>
+                                <span>Kerala, India</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p>"User-friendly interface and fast results. This tool has become an essential part of my
+                                health monitoring routine."</p>
+                            <div class="testimonial-author">
+                                <strong>Sunita Yadav</strong>
+                                <span>Maharashtra, India</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-navigation">
+                <button class="btn btn-secondary next-btn" data-next="health-tips">Get Health Tips</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="health-tips" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <h2>Health Tips &amp; Wellness Advice</h2>
+                <p>Expert-curated health tips to help you maintain optimal wellness</p>
+            </div>
+            <div class="health-tips-content">
+                <div class="tips-categories">
+                    <div class="category-nav">
+                        <button class="category-btn active" data-category="general">General Health</button>
+                        <button class="category-btn" data-category="nutrition">Nutrition</button>
+                        <button class="category-btn" data-category="exercise">Exercise</button>
+                        <button class="category-btn" data-category="mental">Mental Health</button>
+                        <button class="category-btn" data-category="preventive">Preventive Care</button>
+                    </div>
+                </div>
+                <div class="tips-content">
+                    <div class="tips-category active" data-category="general">
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-bed"></i>
+                                </div>
+                                <h3>Quality Sleep</h3>
+                                <p>Aim for 7-9 hours of sleep nightly. Maintain a consistent sleep schedule and create a
+                                    relaxing bedtime routine.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Better Immunity</span>
+                                    <span class="benefit-tag">Improved Focus</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h3>Stay Hydrated</h3>
+                                <p>Drink at least 8 glasses of water daily. Proper hydration supports all bodily
+                                    functions and maintains energy levels.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Better Skin</span>
+                                    <span class="benefit-tag">More Energy</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-hands-wash"></i>
+                                </div>
+                                <h3>Hand Hygiene</h3>
+                                <p>Wash hands frequently with soap for 20 seconds. Use hand sanitizer when soap isn't
+                                    available.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Prevent Illness</span>
+                                    <span class="benefit-tag">Protect Others</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                                <h3>Vitamin D</h3>
+                                <p>Get 15-20 minutes of sunlight daily or consider supplements, especially during winter
+                                    months.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Bone Health</span>
+                                    <span class="benefit-tag">Mood Boost</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tips-category" data-category="nutrition">
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-apple-alt"></i>
+                                </div>
+                                <h3>Eat More Fruits</h3>
+                                <p>Include 2-3 servings of fresh fruits daily. They provide essential vitamins,
+                                    minerals, and antioxidants.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Rich in Vitamins</span>
+                                    <span class="benefit-tag">Boost Immunity</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-carrot"></i>
+                                </div>
+                                <h3>Vegetable Variety</h3>
+                                <p>Eat a rainbow of vegetables. Different colors provide different nutrients and health
+                                    benefits.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Fiber Rich</span>
+                                    <span class="benefit-tag">Heart Health</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-fish"></i>
+                                </div>
+                                <h3>Omega-3 Fatty Acids</h3>
+                                <p>Include fish, nuts, and seeds in your diet. Omega-3s support brain and heart health.
+                                </p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Brain Health</span>
+                                    <span class="benefit-tag">Anti-inflammatory</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                                <h3>Limit Processed Foods</h3>
+                                <p>Reduce intake of processed foods high in sugar, salt, and unhealthy fats.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Weight Control</span>
+                                    <span class="benefit-tag">Better Health</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tips-category" data-category="exercise">
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-running"></i>
+                                </div>
+                                <h3>Regular Cardio</h3>
+                                <p>Aim for 150 minutes of moderate cardio weekly. Walking, swimming, or cycling are
+                                    great options.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Heart Health</span>
+                                    <span class="benefit-tag">Weight Loss</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-dumbbell"></i>
+                                </div>
+                                <h3>Strength Training</h3>
+                                <p>Include strength training 2-3 times per week to build muscle and bone density.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Muscle Growth</span>
+                                    <span class="benefit-tag">Bone Health</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-stretch"></i>
+                                </div>
+                                <h3>Flexibility &amp; Stretching</h3>
+                                <p>Stretch daily to improve flexibility, reduce injury risk, and relieve muscle tension.
+                                </p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Injury Prevention</span>
+                                    <span class="benefit-tag">Better Mobility</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-walking"></i>
+                                </div>
+                                <h3>Daily Movement</h3>
+                                <p>Take the stairs, park farther away, or take walking breaks. Every bit of movement
+                                    counts.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Active Lifestyle</span>
+                                    <span class="benefit-tag">More Energy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tips-category" data-category="mental">
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-om"></i>
+                                </div>
+                                <h3>Practice Meditation</h3>
+                                <p>Spend 10-15 minutes daily in meditation or mindfulness to reduce stress and improve
+                                    focus.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Stress Relief</span>
+                                    <span class="benefit-tag">Better Focus</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h3>Social Connections</h3>
+                                <p>Maintain strong relationships with family and friends. Social support is crucial for
+                                    mental health.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Emotional Support</span>
+                                    <span class="benefit-tag">Happiness</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <h3>Continuous Learning</h3>
+                                <p>Engage in learning new skills or hobbies to keep your mind active and boost
+                                    confidence.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Mental Stimulation</span>
+                                    <span class="benefit-tag">Self-esteem</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-smile"></i>
+                                </div>
+                                <h3>Practice Gratitude</h3>
+                                <p>Keep a gratitude journal and focus on positive aspects of your life daily.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Positive Mindset</span>
+                                    <span class="benefit-tag">Life Satisfaction</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tips-category" data-category="preventive">
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-syringe"></i>
+                                </div>
+                                <h3>Stay Up-to-Date on Vaccines</h3>
+                                <p>Keep your vaccinations current including flu shots and other recommended vaccines for
+                                    your age group.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Disease Prevention</span>
+                                    <span class="benefit-tag">Community Health</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-stethoscope"></i>
+                                </div>
+                                <h3>Regular Check-ups</h3>
+                                <p>Schedule annual physical exams and screenings appropriate for your age and risk
+                                    factors.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Early Detection</span>
+                                    <span class="benefit-tag">Peace of Mind</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-smoking-ban"></i>
+                                </div>
+                                <h3>Avoid Smoking</h3>
+                                <p>Don't smoke and avoid secondhand smoke. If you smoke, seek help to quit for better
+                                    health.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Lung Health</span>
+                                    <span class="benefit-tag">Cancer Prevention</span>
+                                </div>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">
+                                    <i class="fas fa-wine-glass"></i>
+                                </div>
+                                <h3>Limit Alcohol</h3>
+                                <p>If you drink, do so in moderation. Excessive alcohol can lead to serious health
+                                    problems.</p>
+                                <div class="tip-benefits">
+                                    <span class="benefit-tag">Liver Health</span>
+                                    <span class="benefit-tag">Better Sleep</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="daily-tip">
+                    <div class="daily-tip-content">
+                        <div class="daily-tip-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="daily-tip-text">
+                            <h3>Today's Health Tip</h3>
+                            <p>Take a 5-minute break every hour to stand, stretch, or walk around. This simple habit can
+                                improve circulation, reduce muscle tension, and boost energy levels throughout the day.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-navigation">
+                <button class="btn btn-primary next-btn" data-next="home">Back to Home</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Human Disease Predictor</span>
+                </div>
+                <p>Revolutionizing healthcare through AI-powered disease prediction and health insights.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#symptoms">Check Symptoms</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#feedback">Feedback</a></li>
+                    <li><a href="#location">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+1 (800) HEALTH-1</span>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Official website : <br>
+                        Human Disease Predictor</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Human Disease Predictor. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="{{ url_for('static', filename='javascript/email-decode.mim.js') }}"></script>
+
+
+
+
+    <script src="{{ url_for('static', filename='javascript/script.js') }}"></script>
+
+
+
+
+
+
+
+</body>
+
+</html>
